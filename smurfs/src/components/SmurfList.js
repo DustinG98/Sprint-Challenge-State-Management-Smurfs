@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { fetchSmurfs, SET_SMURF_TO_EDIT } from '../actions'
+import { fetchSmurfs, SET_SMURF_TO_EDIT, deleteSmurf } from '../actions'
 
 const SmurfList = () => {
     const state = useSelector(state => state);
@@ -14,6 +14,10 @@ const SmurfList = () => {
     const editSmurf = (smurf) => {
         dispatch({type: SET_SMURF_TO_EDIT, payload: smurf})
     }
+
+    const handleDeleteSmurf = (id) => {
+        dispatch(deleteSmurf(id))
+    }
     return (
         <div>
             <h2>Smurfs</h2>
@@ -23,6 +27,7 @@ const SmurfList = () => {
                             <p>Age: {smurf.age}</p>
                             <p>Height: {smurf.height}</p>
                             <button onClick={() => editSmurf(smurf)}>Edit</button>
+                            <button onClick={() => handleDeleteSmurf(smurf.id)}>Delete</button>
                         </div>
             })}
         </div>
