@@ -4,27 +4,37 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addSmurf, updateSmurf } from '../actions'
 
 const AddSmurfForm = () => {
+    //define dispatch
     const dispatch = useDispatch()
+
+    //define state
     const state = useSelector(state => state)
+    //deconstruct state
     const { smurfToEdit, isEditing } = state
+    
+    //handling form state
     const [newSmurf, setNewSmurf] = useState({
         name: "",
         age: "",
         height: ""
     })
 
+    //use effect to watch editing state
     useEffect(() => {
         if(isEditing === true) {
-            setNewSmurf({ name: smurfToEdit.name, age: smurfToEdit.age, height: smurfToEdit.height })
+            setNewSmurf(smurfToEdit)
         }
-    }, [isEditing, smurfToEdit.name, smurfToEdit.age, smurfToEdit.height])
+    }, [isEditing, smurfToEdit])
 
+    //handle form changes
     const handleChanges = (e) => {
         setNewSmurf({ ...newSmurf, [e.target.name]: e.target.value })
     }
 
+    //handle form submit
     const handleSubmit = (e) => {
         e.preventDefault();
+        //dispatch which function based off of editing state
         isEditing === false ? dispatch(addSmurf(newSmurf)) : dispatch(updateSmurf(newSmurf, smurfToEdit.id))
         setNewSmurf({
             name: "",

@@ -4,17 +4,23 @@ import { useSelector, useDispatch } from 'react-redux'
 import { fetchSmurfs, SET_SMURF_TO_EDIT, deleteSmurf } from '../actions'
 
 const SmurfList = () => {
+    //Define state from redux
     const state = useSelector(state => state);
+
+    //define dispatch
     const dispatch = useDispatch();
 
+    //initial data
     useEffect(() => {
         dispatch(fetchSmurfs())
     }, [dispatch])
 
+    //edit smurf handler
     const editSmurf = (smurf) => {
         dispatch({type: SET_SMURF_TO_EDIT, payload: smurf})
     }
 
+    //delete smurf handler
     const handleDeleteSmurf = (id) => {
         dispatch(deleteSmurf(id))
     }
