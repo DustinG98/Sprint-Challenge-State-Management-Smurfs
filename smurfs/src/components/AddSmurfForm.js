@@ -1,15 +1,23 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { addSmurf } from '../actions'
+import { addSmurf, updateSmurf } from '../actions'
 
 const AddSmurfForm = () => {
     const dispatch = useDispatch()
+    const state = useSelector(state => state)
+    const { smurfToEdit, isEditing } = state
     const [newSmurf, setNewSmurf] = useState({
         name: "",
         age: "",
         height: ""
     })
+
+    useEffect(() => {
+        if(isEditing === true) {
+            setNewSmurf({ name: smurfToEdit.name, age: smurfToEdit.age, height: smurfToEdit.height })
+        }
+    }, [isEditing, smurfToEdit.name, smurfToEdit.age, smurfToEdit.height])
 
     const handleChanges = (e) => {
         setNewSmurf({ ...newSmurf, [e.target.name]: e.target.value })
@@ -17,16 +25,20 @@ const AddSmurfForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(addSmurf(newSmurf))
+        isEditing === false ? dispatch(addSmurf(newSmurf)) : dispatch(updateSmurf(newSmurf, smurfToEdit.id))
+        setNewSmurf({
+            name: "",
+            age: "",
+            height: ""
+        })
     }
     return (
         <div>
             <form onSubmit={e => handleSubmit(e)}>
-                {console.log(newSmurf)}
                 <input name="name" type="text" value={newSmurf.name} placeholder="Name" onChange={e => handleChanges(e)} required/>
                 <input name="age" type="text" value={newSmurf.age} placeholder="Age" onChange={e => handleChanges(e)} required/>
                 <input name="height" type="text" value={newSmurf.height} placeholder="Height" onChange={e => handleChanges(e)} required/>
-                <button type="submit">Add Smurf</button>
+                <button type="submit">{isEditing === false ? 'Add Smurf' : 'Finish Edit'}</button>
             </form>
         </div>
     )

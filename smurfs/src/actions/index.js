@@ -33,3 +33,22 @@ export const addSmurf = (smurf) => dispatch => {
             dispatch({ type: ADD_SMURF_FAIL, payload: err })
         })
 }
+
+//EDITING SMURFS
+export const SET_SMURF_TO_EDIT = "SET_SMURF_TO_EDIT"
+
+//UPDATE SMURF
+export const UPDATE_SMURF_START = "UPDATE_SMURF_START"
+export const UPDATE_SMURF_SUCCESS = "UPDATE_SMURF_SUCCESS"
+export const UPDATE_SMURF_FAIL = "UPDATE_SMURF_FAIL"
+
+export const updateSmurf = (smurf, id) => dispatch => {
+    dispatch({ type: UPDATE_SMURF_START })
+    axios.put(`http://localhost:3333/smurfs/${id}`, smurf)
+        .then(res => {
+            dispatch({ type: UPDATE_SMURF_SUCCESS, payload: res.data })
+        })
+        .catch(err => {
+            dispatch({ type: UPDATE_SMURF_FAIL, payload: err })
+        })
+}

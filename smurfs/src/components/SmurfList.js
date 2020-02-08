@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { fetchSmurfs } from '../actions'
+import { fetchSmurfs, SET_SMURF_TO_EDIT } from '../actions'
 
 const SmurfList = () => {
     const state = useSelector(state => state);
@@ -10,6 +10,10 @@ const SmurfList = () => {
     useEffect(() => {
         dispatch(fetchSmurfs())
     }, [dispatch])
+
+    const editSmurf = (smurf) => {
+        dispatch({type: SET_SMURF_TO_EDIT, payload: smurf})
+    }
     return (
         <div>
             <h2>Smurfs</h2>
@@ -18,6 +22,7 @@ const SmurfList = () => {
                             <h1>{smurf.name}</h1>
                             <p>Age: {smurf.age}</p>
                             <p>Height: {smurf.height}</p>
+                            <button onClick={() => editSmurf(smurf)}>Edit</button>
                         </div>
             })}
         </div>
