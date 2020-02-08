@@ -6,7 +6,6 @@ import { fetchSmurfs } from '../actions'
 const SmurfList = () => {
     const state = useSelector(state => state);
     const dispatch = useDispatch();
-    console.log(state)
 
     useEffect(() => {
         dispatch(fetchSmurfs())
